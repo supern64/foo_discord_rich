@@ -14,14 +14,20 @@ enum class ImageSetting : uint8_t
 enum class TimeSetting : uint8_t
 {
     Elapsed = 0,
-    Remaining,
     Disabled
+};
+enum class StatusSetting : uint8_t
+{
+    Name = 0,
+    Middle,     // to match order with discord's "name, state, details"
+    Top
 };
 
 extern qwr::fb2k::ConfigBool isEnabled;
 extern qwr::fb2k::ConfigUint8Enum<ImageSetting> largeImageSettings;
 extern qwr::fb2k::ConfigUint8Enum<ImageSetting> smallImageSettings;
 extern qwr::fb2k::ConfigUint8Enum<TimeSetting> timeSettings;
+extern qwr::fb2k::ConfigUint8Enum<StatusSetting> statusSettings;
 extern qwr::fb2k::ConfigBool enableAlbumArtFetch;
 extern qwr::fb2k::ConfigBool enableArtUpload;
 extern qwr::fb2k::ConfigString artUploadCmd;

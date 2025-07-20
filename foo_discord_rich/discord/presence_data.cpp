@@ -284,6 +284,26 @@ void PresenceModifier::UpdateTrack( metadb_handle_ptr metadb )
     fixStringLength( pd.bottomText );
     pd.UpdateTextFieldPointers();
 
+    // update status display type
+    switch ( config::statusSettings )
+    {
+    case config::StatusSetting::Name:
+    {
+        pd.presence.statusDisplayType = StatusDisplayType::NAME;
+        break;
+    }
+    case config::StatusSetting::Middle:
+    {
+        pd.presence.statusDisplayType = StatusDisplayType::STATE;
+        break;
+    }
+    case config::StatusSetting::Top:
+    {
+        pd.presence.statusDisplayType = StatusDisplayType::DETAILS;
+        break;
+    }
+    }
+
     const qwr::u8string lengthStr = queryData( "[%length_seconds_fp%]" );
     const qwr::u8string durationStr = queryData( "[%playback_time_seconds%]" );
     UpdateDuration( durationStr.empty() ? 0 : stold( durationStr ), lengthStr.empty() ? 0 : stold( lengthStr ) );
@@ -301,13 +321,6 @@ void PresenceModifier::UpdateDuration( double currentTime )
     case config::TimeSetting::Elapsed:
     {
         pd.presence.startTimestamp = std::time( nullptr ) - std::llround( currentTime );
-        pd.presence.endTimestamp = 0;
-
-        break;
-    }
-    case config::TimeSetting::Remaining:
-    {
-        pd.presence.startTimestamp = 0;
         pd.presence.endTimestamp = std::time( nullptr ) + std::max<uint64_t>( 0, std::llround( pd.trackLength - currentTime ) );
 
         break;

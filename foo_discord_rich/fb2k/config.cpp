@@ -11,6 +11,7 @@ qwr::fb2k::ConfigBool isEnabled( guid::conf_is_enabled, true );
 qwr::fb2k::ConfigUint8Enum<ImageSetting> largeImageSettings( guid::conf_large_image_settings, ImageSetting::Light );
 qwr::fb2k::ConfigUint8Enum<ImageSetting> smallImageSettings( guid::conf_small_image_settings, ImageSetting::Light );
 qwr::fb2k::ConfigUint8Enum<TimeSetting> timeSettings( guid::conf_time_settings, TimeSetting::Disabled );
+qwr::fb2k::ConfigUint8Enum<StatusSetting> statusSettings( guid::conf_status_settings, StatusSetting::Name );
 qwr::fb2k::ConfigBool enableAlbumArtFetch( guid::conf_enable_album_art_fetch, true );
 qwr::fb2k::ConfigBool enableArtUpload( guid::conf_enable_art_upload, false );
 qwr::fb2k::ConfigString artUploadCmd( guid::conf_art_upload_cmd, "" );
