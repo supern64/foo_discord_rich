@@ -23,11 +23,11 @@ void DiscordAdapter::Initialize()
         config::bottomTextQuery_v1_deprecated = config::bottomTextQuery_v1_deprecated.GetDefaultValue();
     }
 
-    // fix from RemuSalminen@d627c6e
-    if ( config::timeSettings != config::TimeSetting::Enabled && config::timeSettings != config::TimeSetting::Disabled )
-        config::timeSettings = config::TimeSetting::Enabled;
-
     appToken_ = config::discordAppToken;
+
+    // fix from RemuSalminen@d627c6e
+    if ( config::timeSettings != config::TimeSetting::Elapsed && config::timeSettings != config::TimeSetting::Disabled )
+        config::timeSettings = config::TimeSetting::Elapsed;
 
     DiscordEventHandlers handlers{};
 
