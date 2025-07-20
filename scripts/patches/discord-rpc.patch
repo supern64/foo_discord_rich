@@ -14,10 +14,10 @@ diff --git a/submodules/discord-rpc/include/discord_rpc.h b/submodules/discord-r
 index 9470434..20f29bc 100644
 --- a/submodules/discord-rpc/include/discord_rpc.h
 +++ b/submodules/discord-rpc/include/discord_rpc.h
-@@ -23,7 +23,17 @@
+@@ -23,7 +23,24 @@
  extern "C" {
  #endif
- 
+
 +typedef enum DiscordActivityType {
 +    PLAYING = 0,
 +    STREAMING = 1,
@@ -27,8 +27,15 @@ index 9470434..20f29bc 100644
 +    COMPETING = 5
 +} DiscordActivityType;
 +
++typedef enum StatusDisplayType {
++    NAME = 0,
++    STATE = 1,
++    DETAILS = 2
++} StatusDisplayType;
++
  typedef struct DiscordRichPresence {
 +    DiscordActivityType activityType;
++    StatusDisplayType statusDisplayType;
      const char* state;   /* max 128 bytes */
      const char* details; /* max 128 bytes */
      int64_t startTimestamp;
@@ -36,13 +43,17 @@ diff --git a/submodules/discord-rpc/src/serialization.cpp b/submodules/discord-r
 index 70efa63..e822dfc 100644
 --- a/submodules/discord-rpc/src/serialization.cpp
 +++ b/submodules/discord-rpc/src/serialization.cpp
-@@ -104,6 +104,9 @@ size_t JsonWriteRichPresenceObj(char* dest,
- 
+@@ -105,6 +105,14 @@ size_t JsonWriteRichPresenceObj(char* dest,
              if (presence != nullptr) {
                  WriteObject activity(writer, "activity");
-+
+
 +                WriteKey(writer, "type");
 +                writer.Int(presence->activityType);
- 
++
++                if (presence->statusDisplayType) {
++                    WriteKey(writer, "status_display_type");
++                    writer.Int(presence->statusDisplayType);
++                }
++
                  WriteOptionalString(writer, "state", presence->state);
                  WriteOptionalString(writer, "details", presence->details);
